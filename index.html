@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StudyFlow: organize suas tarefas, planeje seus estudos e acompanhe seu progresso.">
+    <title>StudyFlow | Organizador de Estudos</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar" id="sidebar">
+            <a href="#" class="brand">
+                <span class="brand-icon">S</span>
+                <span>Study<span class="brand-highlight">Flow</span></span>
+            </a>
+
+            <div class="sidebar-label">MENU PRINCIPAL</div>
+
+            <nav class="nav-menu">
+                <a href="#inicio" class="nav-link active" data-view="inicio">
+                    <span>⌂</span> Visão geral
+                </a>
+                <a href="#tarefas" class="nav-link" data-view="tarefas">
+                    <span>▤</span> Minhas tarefas
+                </a>
+                <a href="#foco" class="nav-link" data-view="foco">
+                    <span>◷</span> Modo foco
+                </a>
+            </nav>
+
+            <div class="sidebar-label subjects-label">ORGANIZAÇÃO</div>
+
+            <div class="subject-item"><span class="subject-dot dot-blue"></span> Programação</div>
+            <div class="subject-item"><span class="subject-dot dot-purple"></span> Matemática</div>
+            <div class="subject-item"><span class="subject-dot dot-green"></span> Outras matérias</div>
+
+            <div class="sidebar-bottom">
+                <div class="motivation-card">
+                    <div class="motivation-icon">✦</div>
+                    <h3>Um passo de cada vez!</h3>
+                    <p>Pequenas sessões de estudo também levam a grandes resultados.</p>
+                </div>
+                <div class="sidebar-footer">StudyFlow · Seu espaço de estudos</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">☰</button>
+                <div class="breadcrumb">Seu espaço / <span id="breadcrumbPage">Visão geral</span></div>
+                <div class="topbar-right">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Seu progresso começa aqui</span>
+                </div>
+            </header>
+
+            <section class="page-section" id="inicio">
+                <div class="welcome-row">
+                    <div>
+                        <div class="eyebrow">SEU PLANEJAMENTO ACADÊMICO</div>
+                        <h1>Vamos estudar? <span class="wave">✦</span></h1>
+                        <p class="subtitle">Organize suas atividades e avance um pouco todos os dias.</p>
+                    </div>
+                    <button class="btn-primary-custom" id="newTaskTop">＋ Nova tarefa</button>
+                </div>
+
+                <div class="date-banner">
+                    <div class="date-icon">▦</div>
+                    <div>
+                        <strong id="todayLabel">Seu planejamento de hoje</strong>
+                        <p>Um bom planejamento transforma objetivos em resultados.</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <article class="stat-card">
+                        <div class="stat-top">
+                            <span class="stat-label">Total de tarefas</span>
+                            <span class="stat-icon blue-icon">▤</span>
+                        </div>
+                        <div class="stat-number" id="totalTasks">0</div>
+                        <div class="stat-caption">Atividades cadastradas</div>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-top">
+                            <span class="stat-label">Pendentes</span>
+                            <span class="stat-icon orange-icon">◷</span>
+                        </div>
+                        <div class="stat-number" id="pendingTasks">0</div>
+                        <div class="stat-caption">Ainda precisam de atenção</div>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-top">
+                            <span class="stat-label">Concluídas</span>
+                            <span class="stat-icon green-icon">✓</span>
+                        </div>
+                        <div class="stat-number" id="completedTasks">0</div>
+                        <div class="stat-caption">Etapas finalizadas</div>
+                    </article>
+
+                    <article class="stat-card progress-stat">
+                        <div class="stat-top">
+                            <span class="stat-label">Seu progresso</span>
+                            <span class="stat-icon purple-icon">↗</span>
+                        </div>
+                        <div class="stat-number"><span id="progressNumber">0</span><small>%</small></div>
+                        <div class="progress custom-progress">
+                            <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                        </div>
+                        <div class="stat-caption">Tarefas concluídas</div>
+                    </article>
+                </div>
+
+                <div class="content-grid">
+                    <section class="panel task-panel" id="tarefas">
+                        <div class="panel-heading">
+                            <div>
+                                <h2>Minhas tarefas</h2>
+                                <p>Organize suas próximas atividades.</p>
+                            </div>
+                            <button class="text-button" id="viewAllTasks">Ver todas →</button>
+                        </div>
+
+                        <div class="filter-bar">
+                            <button class="filter-btn active" data-filter="todas">Todas</button>
+                            <button class="filter-btn" data-filter="pendentes">Pendentes</button>
+                            <button class="filter-btn" data-filter="concluidas">Concluídas</button>
+                        </div>
+
+                        <div id="taskList" class="task-list"></div>
+
+                        <div class="empty-state" id="emptyState">
+                            <div class="empty-icon">✎</div>
+                            <h3>Seu espaço está livre!</h3>
+                            <p>Adicione sua primeira tarefa e comece a se organizar.</p>
+                            <button class="btn-primary-custom" id="emptyAddTask">＋ Criar tarefa</button>
+                        </div>
+                    </section>
+
+                    <section class="panel focus-panel" id="foco">
+                        <div class="panel-heading">
+                            <div>
+                                <h2>Modo foco</h2>
+                                <p>Reserve um tempo para aprender.</p>
+                            </div>
+                            <span class="focus-badge">FOCO</span>
+                        </div>
+
+                        <div class="timer-tabs">
+                            <button class="timer-tab active" data-minutes="25">Foco</button>
+                            <button class="timer-tab" data-minutes="5">Pausa curta</button>
+                            <button class="timer-tab" data-minutes="15">Pausa longa</button>
+                        </div>
+
+                        <div class="timer-circle" id="timerCircle">
+                            <div class="timer-inner">
+                                <span class="timer-label" id="timerLabel">HORA DE FOCAR</span>
+                                <div class="timer-display" id="timerDisplay">25:00</div>
+                                <span class="timer-subtitle">Minutos para você</span>
+                            </div>
+                        </div>
+
+                        <div class="timer-actions">
+                            <button class="btn-primary-custom timer-start" id="startTimer">▶ Iniciar foco</button>
+                            <button class="timer-reset" id="resetTimer" aria-label="Reiniciar cronômetro" title="Reiniciar">↺</button>
+                        </div>
+
+                        <div class="focus-tip">
+                            <span>✦</span>
+                            <p>Afaste as distrações e concentre-se em uma atividade por vez.</p>
+                        </div>
+                    </section>
+                </div>
+
+                <footer class="page-footer">
+                    <span>StudyFlow © 2026</span>
+                    <span>Feito para facilitar sua rotina de estudos.</span>
+                </footer>
+            </section>
+
+            <section class="page-section task-page hidden" id="taskPage">
+                <div class="eyebrow">SUA ORGANIZAÇÃO</div>
+                <h1>Todas as tarefas</h1>
+                <p class="subtitle">Acompanhe, edite e conclua suas atividades.</p>
+
+                <div class="panel all-tasks-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>Lista de atividades</h2>
+                            <p>Suas tarefas cadastradas em um só lugar.</p>
+                        </div>
+                        <button class="btn-primary-custom" id="newTaskPage">＋ Nova tarefa</button>
+                    </div>
+                    <div id="allTaskList" class="task-list"></div>
+                    <div class="empty-state" id="allEmptyState">
+                        <div class="empty-icon">▤</div>
+                        <h3>Nenhuma tarefa cadastrada</h3>
+                        <p>Crie uma atividade para começar seu planejamento.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom-modal">
+                <div class="modal-header">
+                    <div>
+                        <h2 class="modal-title" id="taskModalTitle">Nova tarefa</h2>
+                        <p class="modal-description">Preencha os dados da sua atividade.</p>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+
+                <form id="taskForm">
+                    <div class="modal-body">
+                        <input type="hidden" id="taskId">
+
+                        <div class="mb-3">
+                            <label for="taskTitle" class="form-label">Nome da tarefa *</label>
+                            <input type="text" class="form-control custom-input" id="taskTitle" maxlength="80" placeholder="Ex.: Estudar lógica de programação" required>
+                            <div class="invalid-feedback">Digite um título de pelo menos 3 caracteres.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="taskSubject" class="form-label">Matéria *</label>
+                            <input type="text" class="form-control custom-input" id="taskSubject" maxlength="40" placeholder="Ex.: Programação" required>
+                            <div class="invalid-feedback">Informe a matéria.</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-sm-6 mb-3">
+                                <label for="taskDate" class="form-label">Prazo *</label>
+                                <input type="date" class="form-control custom-input" id="taskDate" required>
+                                <div class="invalid-feedback">Escolha uma data válida.</div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 mb-3">
+                                <label for="taskPriority" class="form-label">Prioridade</label>
+                                <select class="form-select custom-input" id="taskPriority">
+                                    <option value="baixa">Baixa</option>
+                                    <option value="media" selected>Média</option>
+                                    <option value="alta">Alta</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-1">
+                            <label for="taskNotes" class="form-label">Observações (opcional)</label>
+                            <textarea class="form-control custom-input" id="taskNotes" maxlength="250" rows="3" placeholder="Anote algum detalhe importante..."></textarea>
+                        </div>
+
+                        <div class="form-error" id="formError" role="alert"></div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn-primary-custom">Salvar tarefa</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="appToast" class="toast custom-toast" role="status" aria-live="polite" aria-atomic="true">
+            <div class="toast-body">
+                <span id="toastMessage">Alteração salva!</span>
+                <button type="button" class="toast-close" data-bs-dismiss="toast" aria-label="Fechar">×</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
